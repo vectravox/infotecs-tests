@@ -1,0 +1,13 @@
+{
+  "name": "task1-chmod",
+  "module": "index.ts",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "test": "cucumber-js"
+  },
+  "devDependencies": {
+    "@types/bun": "latest",
+    "@cucumber/cucumber": "^10.0.0"
+  }
+}
