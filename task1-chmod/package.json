@@ -1,5 +1,6 @@
 {
   "name": "task1-chmod",
+  "author": "Stepan Nikitin",
   "private": true,
   "scripts": {
     "test": "cucumber-js"
