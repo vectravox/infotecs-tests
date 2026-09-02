@@ -29,11 +29,15 @@ docker build -t task1-chmod .
 docker run --rm task1-chmod
 ```
 
-## Структура
+## Структура проекта
 
 ```
-features/
-├── chmod.feature              # Сценарии на русском языке
-└── step_definitions/
-    └── chmod.steps.cjs        # Реализация шагов
+task1-chmod/
+├── features/
+│   ├── chmod.feature              # Сценарии на русском (Gherkin)
+│   └── step_definitions/
+│       └── chmod.steps.cjs        # Реализация шагов (CommonJS)
+├── package.json
+├── Dockerfile
+└── README.md
 ```
