@@ -1,0 +1,14 @@
+{
+	"name": "task2-website",
+	"author": "Stepan Nikitin <vectravox@gmail.com>",
+	"type": "module",
+	"private": true,
+	"scripts": {
+		"test": "playwright test",
+		"test:headed": "playwright test --headed",
+		"report": "playwright show-report"
+	},
+	"devDependencies": {
+		"@playwright/test": "latest"
+	}
+}
