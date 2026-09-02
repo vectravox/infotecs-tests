@@ -8,6 +8,7 @@
 
 ### Установка зависимостей
 ```bash
+cd task1-chmod
 bun install
 ```
 

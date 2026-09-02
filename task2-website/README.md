@@ -8,6 +8,7 @@
 
 ### Установка зависимостей
 ```bash
+cd task2-website
 bun install
 ```
 
