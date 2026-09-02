@@ -1,5 +1,4 @@
 # Задание №2: Тестирование infotecs.ru
-
 Автоматизированные тесты для сайта [infotecs.ru](https://infotecs.ru) с использованием Playwright и Page Object Model (POM).
 
 ## Установка и подготовка окружения
