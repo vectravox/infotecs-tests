@@ -34,7 +34,7 @@ docker run --rm task1-chmod
 ```
 task1-chmod/
 ├── features/
-│   ├── chmod.feature              # Сценарии на русском (Gherkin)
+│   ├── chmod.feature              # Сценарии на русском языке (Gherkin)
 │   └── step_definitions/
 │       └── chmod.steps.cjs        # Реализация шагов (CommonJS)
 ├── package.json
