@@ -1,11 +1,11 @@
 {
-  "name": "task1-chmod",
-  "author": "Stepan Nikitin <vectravox@gmail.com>",
-  "private": true,
-  "scripts": {
-    "test": "cucumber-js"
-  },
-  "devDependencies": {
-    "@cucumber/cucumber": "latest"
-  }
+	"name": "task1-chmod",
+	"author": "Stepan Nikitin <vectravox@gmail.com>",
+	"private": true,
+	"scripts": {
+		"test": "cucumber-js"
+	},
+	"devDependencies": {
+		"@cucumber/cucumber": "latest"
+	}
 }
