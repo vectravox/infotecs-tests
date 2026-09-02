@@ -1,23 +1,51 @@
+# Задание №2: Тестирование infotecs.ru
+
+Автоматизированные тесты для сайта [infotecs.ru](https://infotecs.ru) с использованием Playwright и Page Object Model (POM).
+
+## Установка и подготовка окружения
+
+### Требования
+- [Bun](https://bun.com/docs/installation)
+
+### Установка зависимостей
+```bash
+bun install
+```
+
+### Установка браузера Chromium для Playwright
+```bash
+bunx playwright install chromium
+```
+
+### Установка системных зависимостей для Chromium (опционально)
+Если при запуске тестов возникают ошибки, связанные с библиотеками:
+```bash
+bunx playwright install-deps chromium
+```
+
 ## Запуск тестов
-Стандартный запуск.
+
+### Обычный запуск (headless)
 ```bash
 bun run test
 ```
 
-В "headed" режиме.
+### Запуск с открытым браузером (headed)
 ```bash
 bun run test:headed
 ```
 
-### Просмотр HTML-отчета
-Командой:
+## Просмотр отчёта
+
+### Через CLI
 ```bash
 bun run report
 ```
 
-Либо открыть вручную в браузере `playwright-report/index.html`.
+### Вручную
+Откройте `playwright-report/index.html` в браузере.
 
-## Docker
+## Работа с Docker
 
 ### Сборка образа
 ```bash
@@ -29,6 +57,20 @@ docker build -t task2-website .
 docker run --rm -v $(pwd)/playwright-report:/app/playwright-report task2-website
 ```
 
-## Получение отчёта
-После запуска отчёт появится в текущей рабочей директории в `playwright-report/` на хосте.
-Откройте `playwright-report/index.html` в браузере.
+### Получение отчёта из контейнера
+После запуска отчёт сохранится в папке `playwright-report/` в текущей рабочей директории. Откройте `playwright-report/index.html` в браузере.
+
+## Структура проекта
+
+```
+task2-website/
+├── pages/
+│   ├── homePage.js       # Page Object для главной страницы
+│   └── patentsPage.js    # Page Object для страницы патентов
+├── tests/
+│   └── infotecs.spec.js  # Тесты
+├── playwright.config.js  # Конфигурация Playwright
+├── package.json
+├── Dockerfile
+└── README.md
+```
