@@ -10,12 +10,14 @@ export class HomePage {
 		await this.page.goto("/");
 	}
 
-	async getAboutLinks() {
+	async openAboutMenu() {
 		await this.aboutMenu.hover();
 		await this.page.waitForSelector('[class*="menu-content"]', {
 			state: "visible",
 		});
+	}
 
+	async collectAboutLinks() {
 		const linkElements = await this.page
 			.locator('[class*="menu-content"] a')
 			.all();

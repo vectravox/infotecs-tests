@@ -8,7 +8,8 @@ test.beforeAll(async ({ browser }) => {
 	const page = await browser.newPage();
 	homePage = new HomePage(page);
 	await homePage.goto();
-	await homePage.getAboutLinks();
+	await homePage.openAboutMenu();
+	await homePage.collectAboutLinks();
 });
 
 test.describe("infotecs.ru tests", () => {
