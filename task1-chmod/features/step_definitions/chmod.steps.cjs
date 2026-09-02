@@ -13,7 +13,8 @@ async function createTestDir() {
 
 async function getFilePermissions(filePath) {
 	const stats = await fs.stat(filePath);
-	return (stats.mode & 0o777).toString(8);
+	const permissions = stats.mode & 0o777; // Extract the last 9 bits (owner, group, other)
+	return permissions.toString(8);
 }
 
 Before(function () {
