@@ -1,26 +1,22 @@
-const { Given, When, Then, Before, After } = require("@cucumber/cucumber");
-const fs = require("node:fs").promises;
-const { exec } = require("node:child_process");
-const util = require("node:util");
+const { Given, When, Then, After } = require("@cucumber/cucumber");
+const { $: original$ } = require("bun");
+const { expect } = require("bun:test");
 const path = require("node:path");
-const assert = require("node:assert");
 
-const execPromise = util.promisify(exec);
+// Disable stdout for Bun shell
+const $ = (strings, ...values) => {
+	return original$({ raw: strings.raw }, ...values).quiet();
+};
 
 async function createTestDir() {
-	return await fs.mkdtemp("/tmp/chmod-test-");
+	const result = await $`mktemp -d /tmp/chmod-test-XXXXXX`;
+	return result.text().trim();
 }
 
 async function getFilePermissions(filePath) {
-	const stats = await fs.stat(filePath);
-	const permissions = stats.mode & 0o777; // Extract the last 9 bits (owner, group, other)
-	return permissions.toString(8);
+	const result = await $`stat -c "%a" ${filePath}`;
+	return result.text().trim();
 }
-
-Before(function () {
-	this.testDir = null;
-	this.exitCode = null;
-});
 
 Given(
 	"существует временный файл {string} с правами {int}",
@@ -28,33 +24,27 @@ Given(
 		this.testDir = await createTestDir();
 		const filePath = path.join(this.testDir, filename);
 
-		await fs.writeFile(filePath, "test content");
-		await fs.chmod(filePath, parseInt(perms, 8));
+		await $`echo "test content" > ${filePath} && chmod ${perms} ${filePath}`;
 	},
 );
 
 Given(
-	"существует директория {string} с файлом {string}",
-	async function (dirName, fileName) {
+	"существует директория {string} с правами {int} и файлом {string} с правами {int}",
+	async function (dirName, dirPerms, fileName, filePerms) {
 		this.testDir = await createTestDir();
 		const dirPath = path.join(this.testDir, dirName);
 		const filePath = path.join(dirPath, fileName);
 
-		await fs.mkdir(dirPath, { recursive: true });
-		await fs.writeFile(filePath, "test content");
-		await fs.chmod(dirPath, 0o755);
-		await fs.chmod(filePath, 0o644);
+		await $`mkdir ${dirPath} && echo "test content" > ${filePath} && chmod ${dirPerms} ${dirPath} && chmod ${filePerms} ${filePath}`;
 	},
 );
 
 When("я выполняю команду {string}", async function (command) {
-	const cwd = this.testDir || ".";
-
 	try {
-		await execPromise(command, { cwd, shell: "/bin/bash" });
-		this.exitCode = 0;
-	} catch (error) {
-		this.exitCode = error.code || 1;
+		const result = await $`sh -c "${command}"`.cwd(this.testDir);
+		this.exitCode = result.exitCode;
+	} catch {
+		this.exitCode = 1;
 	}
 });
 
@@ -63,7 +53,8 @@ Then(
 	async function (filename, expectedPerms) {
 		const filePath = path.join(this.testDir, filename);
 		const perms = await getFilePermissions(filePath);
-		assert.strictEqual(perms, expectedPerms.toString());
+
+		expect(perms).toBe(expectedPerms.toString());
 	},
 );
 
@@ -72,22 +63,17 @@ Then(
 	async function (dirName, expectedPerms) {
 		const dirPath = path.join(this.testDir, dirName);
 		const perms = await getFilePermissions(dirPath);
-		assert.strictEqual(perms, expectedPerms.toString());
+
+		expect(perms).toBe(expectedPerms.toString());
 	},
 );
 
 Then("команда должна завершиться с ошибкой", function () {
-	assert.notStrictEqual(
-		this.exitCode,
-		0,
-		"Команда должна была завершиться с ошибкой",
-	);
+	expect(this.exitCode).not.toBe(0);
 });
 
 After(async function () {
 	if (this.testDir) {
-		await fs.rm(this.testDir, { recursive: true, force: true });
-		this.testDir = null;
+		await $`rm -rf ${this.testDir}`;
 	}
-	this.exitCode = null;
 });
