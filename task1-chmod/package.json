@@ -3,7 +3,7 @@
 	"author": "Stepan Nikitin <vectravox@gmail.com>",
 	"private": true,
 	"scripts": {
-		"test": "cucumber-js"
+		"test": "bun --bun cucumber-js"
 	},
 	"devDependencies": {
 		"@cucumber/cucumber": "latest"
