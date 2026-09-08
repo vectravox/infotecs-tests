@@ -44,12 +44,8 @@ Given(
 );
 
 When("я выполняю команду {string}", async function (command) {
-	try {
-		const result = await $`sh -c "${command}"`.cwd(this.testDir);
+		const result = await $`sh -c "${command}"`.cwd(this.testDir).nothrow();
 		this.exitCode = result.exitCode;
-	} catch {
-		this.exitCode = 1;
-	}
 });
 
 Then(
