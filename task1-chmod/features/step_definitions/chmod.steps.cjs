@@ -24,7 +24,8 @@ Given(
 		this.testDir = await createTestDir();
 		const filePath = path.join(this.testDir, filename);
 
-		await $`echo "test content" > ${filePath} && chmod ${perms} ${filePath}`;
+		await $`echo "test content" > ${filePath}`;
+		await $`chmod ${perms} ${filePath}`;
 	},
 );
 
@@ -35,7 +36,10 @@ Given(
 		const dirPath = path.join(this.testDir, dirName);
 		const filePath = path.join(dirPath, fileName);
 
-		await $`mkdir ${dirPath} && echo "test content" > ${filePath} && chmod ${dirPerms} ${dirPath} && chmod ${filePerms} ${filePath}`;
+		await $`mkdir ${dirPath}`;
+		await $`echo "test content" > ${filePath}`;
+		await $`chmod ${dirPerms} ${dirPath}`;
+		await $`chmod ${filePerms} ${filePath}`;
 	},
 );
 
